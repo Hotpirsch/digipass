@@ -8,4 +8,4 @@ Learn more about Apple passes [here](https://developer.apple.com/library/archive
 
 To generate Google Wallet passes we use: https://github.com/gianlucapirro/GoogleWalletPassGenerator
 
-
+Flask tutorial can be found here: https://flask.palletsprojects.com/en/2.3.x/tutorial/deploy/
