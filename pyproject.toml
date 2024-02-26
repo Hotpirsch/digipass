@@ -1,0 +1,11 @@
+[project]
+name = "rmldigipass"
+version = "0.1.0"
+description = "Confirms that a user has a valid RML DigiPass"
+dependencies = [
+    "flask",
+]
+
+[build-systems]
+requires = ["flit_core<4"]
+build-backend = "flit_core.buildapi"
