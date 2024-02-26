@@ -1,7 +1,5 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 import csv
-import boto3
-import os
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
@@ -22,25 +20,16 @@ def create_app(test_config=None):
         firstname = request.args.get('firstname')
         lastname = request.args.get('lastname')
         zipcode = request.args.get('zipcode')
+        background = "red"
+        
+        # read the CSV file from the local file system
+        with open('./memberlist.csv') as csvfile:
+            csv_reader = csv.reader(csvfile)
+            # Check if the combination of parameters appears as a row
+            for row in csv_reader:
+                if row[0] == firstname.lower() and row[1] == lastname.lower() and row[2] == zipcode:
+                    background = "green"
 
-        # # Read the CSV file from S3 bucket
-        # s3 = boto3.client('s3')
-        # response = s3.get_object(Bucket='RML-bucket', Key='memberlist.csv')
-        # lines = response['Body'].read().decode('utf-8').splitlines()
-        # csv_reader = csv.reader(lines)
-
-        # # Check if the combination of parameters appears as a row
-        # for row in csv_reader:
-        #     if row[0] == firstname and row[1] == lastname and row[2] == zipcode:
-        #         # Generate HTML page with "Mitglied bei RML" in green color
-        #         firstname.title()
-        #         lastname.title()
-        #         html = f'<html><body style="color:green">{firstname} {lastname} ist ein Mitglied der DGF Rhein-Mosel-Lahn</body></html>'
-        #         return html
-
-        # # Generate HTML page with "Kein Mitglied" in red color
-        # html = '<html><body style="color:red">Kein Mitglied</body></html>'
-        html = f'<html><body style="color:green">{firstname} {lastname} ist ein Mitglied der DGF Rhein-Mosel-Lahn</body></html>'
-        return html
+        return render_template("member.html", firstname=firstname, lastname=lastname, background=background)
 
     return app

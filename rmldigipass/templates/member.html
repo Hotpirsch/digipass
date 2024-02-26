@@ -6,12 +6,12 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: green;
+            background-color: {{ background }};
             display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            font-size: 5vw;
+            font-size: 10vw;
             color: white;
         }
     </style>
@@ -26,9 +26,11 @@
 </head>
 <body>
     <center>
-        Christoph Krüger </br>
-        ist ein </br>
-        Mitglied des RML
+        {% if background == "green" %}
+            {{firstname}} {{lastname}}</br> ist ein</br> Mitglied des RML
+        {% else %}
+            {{firstname}} {{lastname}}</br> ist KEIN</br> Mitglied!
+        {% endif %}
     </center>
 </body>
 </html>
