@@ -1,5 +1,7 @@
 boto3
 qrcode
 flask
+pandas
+pillow
 applepassgenerator
 GoogleWalletPassGenerator
