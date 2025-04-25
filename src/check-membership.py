@@ -21,8 +21,8 @@ def find_name_by_hash(csv_file_path, input_hash):
     return None,None
 
 # Example usage
-csv_file = 'memberlist.csv'  # Replace with the path to your CSV file
-input_hash = 'cc76cb5adc1f084bc18751cf04bc1016'  # Replace with the hash you want to search for
+csv_file = '../test/memberlist.csv'  # Replace with the path to your CSV file
+input_hash = '1e7455a47d9fec6ed988e7a0cdf31d40'  # Replace with the hash you want to search for
 
 vorname,nachname = find_name_by_hash(csv_file, input_hash)
 if vorname and nachname:

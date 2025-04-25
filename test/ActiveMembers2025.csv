@@ -1,0 +1,11 @@
+﻿RML MitglNr;Anrede;Vorname;Nachname;DHV - Mitglieds-Nr.;Versandart;Strasse;PLZ;Ort;Telefon;IBAN;Geburtsdatum;Alter;Mobil;E-Mail;Eintritt;Austritt;Abteilung RML e.V.;Abteilung DHV;Sportart
+0000600;Herr;Adam;Gottessohn;1234567;POST;Musterstr. 1;12345;Musterstadt;+49-1234-56789;DE12 3456 7890 1234 5678 90;01.01.1970;55;+49-123-456 7890;;01.01.1990;;RML e.V.;;Gleitschirmfliegen
+0001600;Frau;Eva;Gottestochter Freifrau von und zu Paradieshügel;1234567;POST;Musterstr. 1;12345;Musterstadt;+49-1234-56789;DE12 3456 7890 1234 5678 90;01.01.1970;55;+49-123-456 7890;;01.01.1990;;RML e.V.;;Gleitschirmfliegen
+0001700;Herr;Charlie;Cäsar;1234567;POST;Musterstr. 1;12345;Musterstadt;+49-1234-56789;DE12 3456 7890 1234 5678 90;01.01.1970;55;+49-123-456 7890;;01.01.1990;;RML e.V.;;Gleitschirmfliegen
+0002400;Frau;Dora;Dämchen;1234567;POST;Musterstr. 1;12345;Musterstadt;+49-1234-56789;DE12 3456 7890 1234 5678 90;01.01.1970;55;+49-123-456 7890;;01.01.1990;;RML e.V.;;Gleitschirmfliegen
+0002500;Herr;Egbert;Schnabel;1234567;POST;Musterstr. 1;12345;Musterstadt;+49-1234-56789;DE12 3456 7890 1234 5678 90;01.01.1970;55;+49-123-456 7890;;01.01.1990;;RML e.V.;;Gleitschirmfliegen
+0002600;Frau;Fabienne;Fnord;1234567;POST;Musterstr. 1;12345;Musterstadt;+49-1234-56789;DE12 3456 7890 1234 5678 90;01.01.1970;55;+49-123-456 7890;;01.01.1990;01.01.1999;RML e.V.;;Gleitschirmfliegen
+0000700;Herr;James;Bond;1234567;POST;Musterstr. 1;12345;Musterstadt;+49-1234-56789;DE12 3456 7890 1234 5678 90;01.01.1970;55;+49-123-456 7890;;01.01.1990;;RML e.V.;;Gleitschirmfliegen
+0003300;Frau;Gina;Grobschnitzel;1234567;POST;Musterstr. 1;12345;Musterstadt;+49-1234-56789;DE12 3456 7890 1234 5678 90;01.01.1970;55;+49-123-456 7890;;01.01.1990;;RML e.V.;;Gleitschirmfliegen
+0003400;Herr;Herbert;von Karajan;1234567;POST;Musterstr. 1;12345;Musterstadt;+49-1234-56789;DE12 3456 7890 1234 5678 90;01.01.1970;55;+49-123-456 7890;;01.01.1990;31.03.2020;RML e.V.;;Gleitschirmfliegen
+0003600;Frau;Inga;Weichei;1234567;POST;Musterstr. 1;12345;Musterstadt;+49-1234-56789;DE12 3456 7890 1234 5678 90;01.01.1970;55;+49-123-456 7890;;01.01.1990;;RML e.V.;;Gleitschirmfliegen

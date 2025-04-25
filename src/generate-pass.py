@@ -2,6 +2,8 @@ import pandas as pd
 import qrcode
 from PIL import Image, ImageDraw, ImageFont
 
+url_domain = "https://example.com/member/"  # Replace with your actual domain
+
 def generate_member_qr(member_number, csv_file_path, output_png_path):
     # Read the CSV file
     df = pd.read_csv(csv_file_path)
@@ -22,7 +24,7 @@ def generate_member_qr(member_number, csv_file_path, output_png_path):
     hash_value = matching_row.iloc[0]['hash']
 
     # Construct the URL
-    url = f"https://example.com/member/{hash_value}"
+    url = f"{url_domain}{hash_value}"
 
     # Generate the QR code
     qr = qrcode.QRCode()
@@ -57,7 +59,7 @@ def generate_member_qr(member_number, csv_file_path, output_png_path):
     # Add text below the QR code
     draw = ImageDraw.Draw(final_image)
     text_x = (image_width - text_width) // 2
-    text_y = qr_image.size[1]  # Position text below the QR code
+    text_y = qr_image.size[1] + ((image_height - qr_image.size[1] - font.size) / 2 )  # Position text below the QR code
     draw.text((text_x, text_y), text, fill="white", font=font)
 
     # Save the final image as a PNG
@@ -65,8 +67,8 @@ def generate_member_qr(member_number, csv_file_path, output_png_path):
     print(f"QR code PNG saved to {output_png_path}")
 
 # Example usage
-csv_file = 'memberlist.csv'  # Path to your CSV file
-member_number = 71400  # Replace with the desired member number
+csv_file = '../test/memberlist.csv'  # Path to your CSV file
+member_number = 700  # Replace with the desired member number
 output_png = 'member_qr.png'  # Path to save the generated PNG
 
 generate_member_qr(member_number, csv_file, output_png)
