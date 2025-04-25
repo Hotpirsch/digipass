@@ -1,6 +1,11 @@
 # digipass
 Generate and evaluate RML membership passes
 
+## Design
+## Deployment
+## Operation
+## Link collection
+
 The generated QR code is meant to become part of a digital pass for Apple or Google Wallet.
 
 To generate the Apple passes we use: https://pypi.org/project/applepassgenerator/
