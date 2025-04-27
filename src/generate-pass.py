@@ -2,7 +2,7 @@ import pandas as pd
 import qrcode
 from PIL import Image, ImageDraw, ImageFont
 
-url_domain = "https://example.com/member/"  # Replace with your actual domain
+url_domain = "https://xw24b2obnym7ofrwk2ckhqktc40cglku.lambda-url.us-east-1.on.aws/"  # Replace with your actual domain
 
 def generate_member_qr(member_number, csv_file_path, output_png_path):
     # Read the CSV file
@@ -24,7 +24,7 @@ def generate_member_qr(member_number, csv_file_path, output_png_path):
     hash_value = matching_row.iloc[0]['hash']
 
     # Construct the URL
-    url = f"{url_domain}{hash_value}"
+    url = f"{url_domain}?hash={hash_value}"
 
     # Generate the QR code
     qr = qrcode.QRCode()
@@ -35,18 +35,18 @@ def generate_member_qr(member_number, csv_file_path, output_png_path):
     # Create a blank image to embed the QR code and text
     image_width = qr_image.size[0]
     margin = 15
-    font = ImageFont.truetype("arial.ttf")  # Use ttf font
+    font = ImageFont.truetype("DejaVuSans.ttf")  # Use ttf font
     text = f"{vorname} {nachname}"
 
     # Calculate text size and ensure it fits within the image width with margins
     draw = ImageDraw.Draw(qr_image)
     text_width = draw.textlength(text, font=font)
     while text_width > (image_width - 2 * margin):
-        font = ImageFont.truetype("arial.ttf", font.size - 1)  # Reduce font size
+        font = ImageFont.truetype("DejaVuSans.ttf", font.size - 1)  # Reduce font size
         text_width = draw.textlength(text, font=font)
 
     while text_width < (image_width - 2 * margin):
-        font = ImageFont.truetype("arial.ttf", font.size + 1)  # Increase font size
+        font = ImageFont.truetype("DejaVuSans.ttf", font.size + 1)  # Increase font size
         text_width = draw.textlength(text, font=font)
 
     # Create a new image with space for the text
@@ -67,8 +67,8 @@ def generate_member_qr(member_number, csv_file_path, output_png_path):
     print(f"QR code PNG saved to {output_png_path}")
 
 # Example usage
-csv_file = '../test/memberlist.csv'  # Path to your CSV file
-member_number = 700  # Replace with the desired member number
+csv_file = './lambda/memberlist.csv'  # Path to your CSV file
+member_number = 71400  # Replace with the desired member number
 output_png = 'member_qr.png'  # Path to save the generated PNG
 
 generate_member_qr(member_number, csv_file, output_png)
