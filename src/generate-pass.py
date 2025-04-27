@@ -4,7 +4,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 url_domain = "https://xw24b2obnym7ofrwk2ckhqktc40cglku.lambda-url.us-east-1.on.aws/"  # Replace with your actual domain
 
-def generate_member_qr(member_number, csv_file_path, output_png_path):
+def generate_member_qr(member_number, csv_file_path):
     # Read the CSV file
     df = pd.read_csv(csv_file_path)
 
@@ -63,12 +63,13 @@ def generate_member_qr(member_number, csv_file_path, output_png_path):
     draw.text((text_x, text_y), text, fill="white", font=font)
 
     # Save the final image as a PNG
-    final_image.save(output_png_path)
+    output_png_path = f"./{member_number}.png"
+    final_image.save(output_png_path, "PNG")
     print(f"QR code PNG saved to {output_png_path}")
+
 
 # Example usage
 csv_file = './lambda/memberlist.csv'  # Path to your CSV file
-member_number = 71400  # Replace with the desired member number
-output_png = 'member_qr.png'  # Path to save the generated PNG
+member_number = 52100  # Replace with the desired member number
 
-generate_member_qr(member_number, csv_file, output_png)
+generate_member_qr(member_number, csv_file)
