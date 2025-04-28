@@ -1,10 +1,13 @@
 import pandas as pd
 import qrcode
+import segno
 from PIL import Image, ImageDraw, ImageFont
 
 url_domain = "https://xw24b2obnym7ofrwk2ckhqktc40cglku.lambda-url.us-east-1.on.aws/"  # Replace with your actual domain
 
-def generate_member_qr(member_number, csv_file_path):
+def nice_qr_code(member_number, csv_file_path):
+    font_name = "arial.ttf"  # Path to your TTF font file
+    logo = Image.open("logo-rml3.png")  # Path to your logo image
     # Read the CSV file
     df = pd.read_csv(csv_file_path)
 
@@ -27,49 +30,47 @@ def generate_member_qr(member_number, csv_file_path):
     url = f"{url_domain}?hash={hash_value}"
 
     # Generate the QR code
-    qr = qrcode.QRCode()
-    qr.add_data(url)
-    qr.make()
-    qr_image = qr.make_image(fill_color="black", back_color="white").convert("RGB")
+    qr = segno.make_qr(url,error='h')
+    qr_pil = qr.to_pil(scale=5, border=3, dark='black', light='white').convert("RGB")
+    # Add logo to the QR code
+    qr_pil.paste(logo, (qr_pil.size[0] // 2 - logo.size[0] // 2, qr_pil.size[1] // 2 - logo.size[1] // 2), logo)
 
     # Create a blank image to embed the QR code and text
-    image_width = qr_image.size[0]
-    margin = 15
-    font = ImageFont.truetype("DejaVuSans.ttf")  # Use ttf font
+    image_width = qr_pil.size[0]
+    margin = 10
+    font = ImageFont.truetype(font_name)  # Use ttf font
     text = f"{vorname} {nachname}"
 
     # Calculate text size and ensure it fits within the image width with margins
-    draw = ImageDraw.Draw(qr_image)
+    draw = ImageDraw.Draw(qr_pil)
     text_width = draw.textlength(text, font=font)
     while text_width > (image_width - 2 * margin):
-        font = ImageFont.truetype("DejaVuSans.ttf", font.size - 1)  # Reduce font size
+        font = ImageFont.truetype(font_name, font.size - 1)  # Reduce font size
         text_width = draw.textlength(text, font=font)
 
     while text_width < (image_width - 2 * margin):
-        font = ImageFont.truetype("DejaVuSans.ttf", font.size + 1)  # Increase font size
+        font = ImageFont.truetype(font_name, font.size + 1)  # Increase font size
         text_width = draw.textlength(text, font=font)
 
     # Create a new image with space for the text
-    image_height = qr_image.size[1] + font.size + 20  # Add space for text
-    final_image = Image.new("RGB", (image_width, image_height), "green")
+    image_height = qr_pil.size[1] + font.size + 20  # Add space for text
+    final_image = Image.new("RGB", (image_width + 2 * margin, image_height), "green")
 
     # Paste the QR code onto the blank image
-    final_image.paste(qr_image, (0, 0))
+    final_image.paste(qr_pil, (margin, margin))
+    draw = ImageDraw.Draw(final_image)
+    draw.rounded_rectangle((4, 4, final_image.size[0]-4, qr_pil.size[1]+13), outline="green", fill=None, width=7, radius=10)
+    draw.rounded_rectangle((9, 9, final_image.size[0]-9, qr_pil.size[1]+9), outline="black", fill=None, width=3, radius=10)
 
     # Add text below the QR code
     draw = ImageDraw.Draw(final_image)
-    text_x = (image_width - text_width) // 2
-    text_y = qr_image.size[1] + ((image_height - qr_image.size[1] - font.size) / 2 )  # Position text below the QR code
+    text_x = (final_image.size[0] - text_width) / 2
+    text_y = qr_pil.size[1] + ((image_height - qr_pil.size[1] - font.size) / 2 )  # Position text below the QR code
     draw.text((text_x, text_y), text, fill="white", font=font)
 
-    # Save the final image as a PNG
-    output_png_path = f"./{member_number}.png"
-    final_image.save(output_png_path, "PNG")
-    print(f"QR code PNG saved to {output_png_path}")
-
-
+    final_image.save(f"./{member_number}.png", "PNG")
+    
 # Example usage
 csv_file = './lambda/memberlist.csv'  # Path to your CSV file
 member_number = 52100  # Replace with the desired member number
-
-generate_member_qr(member_number, csv_file)
+nice_qr_code(member_number, csv_file)
