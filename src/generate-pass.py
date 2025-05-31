@@ -1,30 +1,20 @@
 import pandas as pd
-import qrcode
 import segno
 from PIL import Image, ImageDraw, ImageFont
+import sys
 
 url_domain = "https://xw24b2obnym7ofrwk2ckhqktc40cglku.lambda-url.us-east-1.on.aws/"  # Replace with your actual domain
 
-def nice_qr_code(member_number, csv_file_path):
+def nice_qr_code(matching_row):
     font_name = "arial.ttf"  # Path to your TTF font file
     logo = Image.open("logo-rml3.png")  # Path to your logo image
-    # Read the CSV file
-    df = pd.read_csv(csv_file_path)
-
-    # Ensure the required columns exist
-    if 'RML MitglNr' not in df.columns or 'Vorname' not in df.columns or 'Nachname' not in df.columns or 'hash' not in df.columns:
-        raise ValueError("The CSV file must contain 'RML MitglNr', 'Vorname', 'Nachname', and 'hash' columns.")
-
-    # Find the row where the member number matches
-    matching_row = df[df['RML MitglNr'] == member_number]
-
-    if matching_row.empty:
-        raise ValueError(f"No member found with member number {member_number}.")
 
     # Extract the required values
     vorname = matching_row.iloc[0]['Vorname']
     nachname = matching_row.iloc[0]['Nachname']
     hash_value = matching_row.iloc[0]['hash']
+    member_number = matching_row.iloc[0]['RML MitglNr']
+    fname = vorname[0].upper() + nachname
 
     # Construct the URL
     url = f"{url_domain}?hash={hash_value}"
@@ -68,9 +58,50 @@ def nice_qr_code(member_number, csv_file_path):
     text_y = qr_pil.size[1] + ((image_height - qr_pil.size[1] - font.size) / 2 )  # Position text below the QR code
     draw.text((text_x, text_y), text, fill="white", font=font)
 
-    final_image.save(f"./{member_number}.png", "PNG")
-    
-# Example usage
-csv_file = './lambda/memberlist.csv'  # Path to your CSV file
-member_number = 52100  # Replace with the desired member number
-nice_qr_code(member_number, csv_file)
+    final_image.save(f"./{fname}.png", "PNG")
+
+def generate_qr_codes_from_file(input_file, csv_file_path):
+    """
+    Reads a file containing membership numbers and generates QR codes for each member.
+
+    :param input_file: Path to the file containing membership numbers.
+    :param csv_file_path: Path to the CSV file containing member data.
+    """
+    try:
+        # Open the membership numbers input file
+        with open(input_file, 'r') as file:
+            membership_numbers = [line.strip() for line in file.readlines()]
+
+        # Read the CSV file
+        df = pd.read_csv(csv_file_path)
+
+        # Ensure the required columns exist
+        if 'RML MitglNr' not in df.columns or 'Vorname' not in df.columns or 'Nachname' not in df.columns or 'hash' not in df.columns:
+            raise ValueError("The CSV file must contain 'RML MitglNr', 'Vorname', 'Nachname', and 'hash' columns.")
+
+        for member_number in membership_numbers:
+            try:
+                # Find the row where the member number matches
+                matching_row = df[df['RML MitglNr'] == int(member_number)]
+
+                if matching_row.empty:
+                    raise ValueError(f"No member found with member number {member_number}.")
+
+                nice_qr_code(matching_row)
+                print(f"QR code generated for member number: {member_number}")
+            except ValueError as e:
+                print(f"Error generating QR code for member number {member_number}: {e}")
+    except FileNotFoundError:
+        print(f"Input file '{input_file}' not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        print("Usage: python generate-pass.py <membership_number_file> <csv_file>")
+        sys.exit(1)
+
+    input_file = sys.argv[1]
+    csv_file = sys.argv[2]
+
+    generate_qr_codes_from_file(input_file, csv_file)
