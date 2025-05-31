@@ -4,6 +4,7 @@ from PIL import Image, ImageDraw, ImageFont
 import sys
 
 url_domain = "https://xw24b2obnym7ofrwk2ckhqktc40cglku.lambda-url.us-east-1.on.aws/"  # Replace with your actual domain
+qrcode_directory = "../qr-codes"  # Directory where the QR-codes are stored
 
 def nice_qr_code(matching_row):
     font_name = "arial.ttf"  # Path to your TTF font file
@@ -58,7 +59,7 @@ def nice_qr_code(matching_row):
     text_y = qr_pil.size[1] + ((image_height - qr_pil.size[1] - font.size) / 2 )  # Position text below the QR code
     draw.text((text_x, text_y), text, fill="white", font=font)
 
-    final_image.save(f"./{fname}.png", "PNG")
+    final_image.save(f"{qrcode_directory}/{fname}{member_number}.png", "PNG")
 
 def generate_qr_codes_from_file(input_file, csv_file_path):
     """
