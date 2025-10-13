@@ -12,3 +12,6 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+deployment/terraform/.terraform*
+deployment/terraform/.aws
+package/*

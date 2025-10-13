@@ -1,2 +1,6 @@
 qrcode
 pillow
+pandas
+segno
+openpyxl
+xlrd

@@ -1,0 +1,32 @@
+Liebe/r {vorname},
+
+wir freuen uns, Dir unseren neuen digitalen Mitgliedsausweis vorstellen zu können!
+
+Ab sofort kannst Du deine Mitgliedschaft im RML e.V. ganz einfach digital nachweisen. Dein persönlicher QR-Code ist im Anhang dieser E-Mail enthalten.
+
+Was ist neu?
+- Digitaler Mitgliedsausweis als QR-Code.
+- Einfache Verifikation über Smartphone.
+- Sichere Authentifizierung über eindeutige Hash-Werte.
+- Umweltfreundlich und praktisch.
+
+Wie funktioniert es?
+1. Speichere die angehängte QR-Code-Datei auf deinem Smartphone.
+2. Zeige den Code bei Bedarf vor (z.B. bei Veranstaltungen oder am Startplatz).
+3. Der Code wird gescannt und deine Mitgliedschaft automatisch verifiziert.
+
+Deine Mitgliedsdaten:
+- Mitgliedsnummer: {mitgliedsnummer}
+- Name: {vorname} {nachname}
+- E-Mail: {email}
+
+Der QR-Code ist personalisiert und nur für Dich gültig. Bitte behandle ihn wie einen offiziellen Ausweis.
+
+Bei Fragen stehen wir Dir gerne zur Verfügung.
+
+Mit sportlichen Grüßen
+Dein RML e.V. Team
+
+---
+Rhein-Mosel-Lahn e.V.
+www.thermik4u.de

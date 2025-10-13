@@ -1,16 +1,24 @@
 # digipass
-Generate and evaluate RML membership passes
-
+Generate and validate RML membership passes
+## Requirements
+1. It shall be possible to validate the pass for every member of the RML.
+1. It shall be possible to validate the pass outside in the field e. g. at takeoff or landing sites.
+1. The pass shall be personalized.
+1. The pass shall be revocable.
 ## Design
+The pass takes the form of a QR-code that contains an URL behind which the validation takes place. The validation is completely done on the server.
 ## Deployment
+The QR generation is done via Python on the base of an Excel export of the member list.
+
+The QR-code validation is done by an AWS lambda function behind a function URL.
+
+The deployment is done via Terraform.
 ## Operation
-## Link collection
+1. The member list is exported as an Excel file from the dedicated membership management application.
+1. Use Excel to export the member list as csv.
+1. Use prepare-data.py to convert the csv to the format needed by the application.
+1. Put the `memberlist.csv` to the `/src/lambda` directory.
+1. Run terraform plan/apply. from the `/deploy/terraform` directory.
 
-The generated QR code is meant to become part of a digital pass for Apple or Google Wallet.
-
-To generate the Apple passes we use: https://pypi.org/project/applepassgenerator/
-Learn more about Apple passes [here](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/YourFirst.html#//apple_ref/doc/uid/TP40012195-CH2-SW1).
-
-To generate Google Wallet passes we use: https://github.com/gianlucapirro/GoogleWalletPassGenerator
-
-Flask tutorial can be found here: https://flask.palletsprojects.com/en/2.3.x/tutorial/deploy/
+## TODO
+* Generate QR-Codes directly into the exported membership Excel. Use that Excel to generate serial letters or emails to members.
