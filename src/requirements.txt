@@ -4,3 +4,5 @@ pandas
 segno
 openpyxl
 xlrd
+azure-identity
+msgraph-sdk
