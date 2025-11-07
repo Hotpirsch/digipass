@@ -2,18 +2,18 @@ Liebe/r {vorname},
 
 wir freuen uns, Dir unseren neuen digitalen Mitgliedsausweis vorstellen zu können!
 
-Ab sofort kannst Du deine Mitgliedschaft im RML e.V. ganz einfach digital nachweisen. Dein persönlicher QR-Code ist im Anhang dieser E-Mail enthalten.
+Ab sofort kannst Du deine Mitgliedschaft im DGF Rhein-Mosel-Lahn e.V. ganz einfach digital nachweisen. Dein persönlicher QR-Code ist im Anhang dieser E-Mail enthalten.
 
 Was ist neu?
 - Digitaler Mitgliedsausweis als QR-Code.
-- Einfache Verifikation über Smartphone.
-- Sichere Authentifizierung über eindeutige Hash-Werte.
+- Einfache Verifikation über Smartphone-Kamera. Bei den allermeisten modernen Smartphones ist das ohne spezielle App möglich (probier's aus).
+- Sichere Authentifizierung durch fälschungssicheren Code.
 - Umweltfreundlich und praktisch.
 
 Wie funktioniert es?
-1. Speichere die angehängte QR-Code-Datei auf deinem Smartphone.
+1. Speichere den angehängten QR-Code auf deinem Smartphone (oder drucke ihn aus, laminiere ihn etc.).
 2. Zeige den Code bei Bedarf vor (z.B. bei Veranstaltungen oder am Startplatz).
-3. Der Code wird gescannt und deine Mitgliedschaft automatisch verifiziert.
+3. Der Code wird einfach mit der Smartphone-Kamera gescannt und deine Mitgliedschaft automatisch verifiziert. Dazu braucht das scannende Smartphone eine Internetverbindung.
 
 Deine Mitgliedsdaten:
 - Mitgliedsnummer: {mitgliedsnummer}
@@ -25,8 +25,8 @@ Der QR-Code ist personalisiert und nur für Dich gültig. Bitte behandle ihn wie
 Bei Fragen stehen wir Dir gerne zur Verfügung.
 
 Mit sportlichen Grüßen
-Dein RML e.V. Team
+Dein DGF Rhein-Mosel-Lahn e.V. Team
 
 ---
-Rhein-Mosel-Lahn e.V.
+DGF Rhein-Mosel-Lahn e.V.
 www.thermik4u.de
