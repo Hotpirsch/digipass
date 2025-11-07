@@ -2,15 +2,21 @@
 
 ## Overview
 
-The `generate-pass.py` script is a Python utility that generates QR code-based digital membership passes for club members. It creates visually appealing QR codes with embedded logos and member information that can be used for digital verification systems.
+The digital membership pass system consists of two main components:
+
+1. **`generate-pass.py`**: A Python utility that generates QR code-based digital membership passes for club members. It creates visually appealing QR codes with embedded logos and member information.
+
+2. **`azure-mailtest.py`**: An automated email distribution system that generates and sends personalized QR code passes directly to members via Microsoft Graph API (Azure).
 
 ## Purpose
 
-This script is designed to create digital membership passes that:
+This system is designed to create and distribute digital membership passes that:
 - Generate QR codes containing secure URLs with member hash values
 - Include the club logo embedded within the QR code
 - Display member names below the QR code
 - Save individual pass images for distribution to members
+- Automatically send personalized passes via email to all members
+- Provide secure membership verification through hash-based URLs
 
 ## Features
 
@@ -25,19 +31,28 @@ This script is designed to create digital membership passes that:
 
 ### Dependencies
 
-The script requires the following Python packages (see `requirements.txt`):
+The scripts require the following Python packages (see `requirements.txt`):
 
+**Core Dependencies (for `generate-pass.py`):**
 ```
 pandas
 segno
 pillow
 ```
 
+**Additional Dependencies (for `azure-mailtest.py`):**
+```
+msgraph-core
+azure-identity
+asyncio
+configparser
+```
+
 ### System Requirements
 
 - Python 3.6 or higher
-- Arial font (arial.ttf) installed on the system
-- Club logo image file (`logo-rml3.png`)
+- Open Sans Serif font (OpenSans-Medium.ttf) coming with the repo
+- Club logo image file (`logo-rml3.png`) coming with the repo
 
 ### Input Files
 
@@ -228,12 +243,17 @@ Solution: Ensure write permissions for output directory
 
 ```
 src/
-├── generate-pass.py          # Main script
+├── generate-pass.py          # Main QR code generation script
+├── azure-mailtest.py         # Email distribution system
+├── graphmail.py              # Microsoft Graph API client
 ├── requirements.txt          # Python dependencies
+├── email_config.ini          # Email system configuration
+├── email_template.txt        # Email template with placeholders
 ├── logo-rml3.png            # Club logo image
+├── OpenSans-Medium.ttf       # Font file for QR codes
 ├── ActiveMembers2025.csv    # Member database
 ├── vorstand.list            # Membership numbers
-└── arial.ttf                # Font file (system)
+└── arial.ttf                # Alternative font file (system)
 
 qr-codes/
 ├── FKrüger12345.png         # Generated passes
@@ -251,3 +271,139 @@ qr-codes/
 
 - `prepare-data.py`: Generates member hashes and prepares CSV data
 - `check-membership.py`: Lambda function for membership verification
+- `azure-mailtest.py`: Automated email distribution system for membership passes
+
+### Azure Mail Distribution (`azure-mailtest.py`)
+
+The `azure-mailtest.py` script provides an automated email distribution system that generates QR code passes and sends them directly to members via Microsoft Graph API (Azure).
+
+#### Features
+
+- **Automated Email Distribution**: Sends personalized emails with QR code attachments to all members
+- **Microsoft Graph Integration**: Uses Azure Active Directory for secure email sending
+- **QR Code Generation**: Integrates the same QR code generation logic as `generate-pass.py`
+- **Batch Processing**: Processes multiple members with progress tracking and statistics
+- **Test Mode Support**: Allows testing with specific email addresses before bulk sending
+- **Configuration Management**: Uses INI files for flexible configuration
+
+#### Requirements
+
+**Additional Dependencies for Email Distribution:**
+```
+msgraph-core
+azure-identity
+asyncio
+```
+
+**Azure Configuration:**
+- Azure AD application registration
+- Microsoft Graph API permissions: `User.Read`, `Mail.Send`, `Mail.Read`
+- Valid tenant ID and client ID
+
+#### Usage
+
+**Interactive Mode:**
+```bash
+python azure-mailtest.py
+```
+
+**Command Line Options:**
+```bash
+python azure-mailtest.py --config email_config.ini --test-email test@example.com --max-emails 5 --dry-run
+```
+
+**Available Parameters:**
+- `--config`: Configuration file path (default: `email_config.ini`)
+- `--test-email`: Email address for test mode
+- `--max-emails`: Maximum number of emails to send (for testing)
+- `--dry-run`: Generate QR codes without sending emails
+
+#### Interactive Menu Options
+
+1. **Display Access Token**: Shows current Azure authentication token
+2. **Dry Run**: Generate QR codes only without sending emails
+3. **Send Test Mail**: Send a test email to specified address
+4. **Send All Passes**: Send passes to all members with email addresses
+5. **Send Pass to Single Member**: Send pass to specific member by name
+
+#### Configuration (`email_config.ini`)
+
+The script uses a comprehensive configuration file with the following sections:
+
+**Azure Settings:**
+```ini
+[azure]
+clientId = your-azure-client-id
+tenantId = your-azure-tenant-id
+graphUserScopes = User.Read Mail.Send Mail.Read
+```
+
+**QR Code Settings:**
+```ini
+[QR_CODE]
+url_domain = https://your-verification-service.com/
+qrcode_directory = ../qr-codes
+logo_path = logo-rml3.png
+font_name = ./OpenSans-Medium.ttf
+```
+
+**File Paths:**
+```ini
+[FILES]
+excel_file = ActiveMembers2025.csv
+template_file = email_template.txt
+```
+
+**Email Configuration:**
+```ini
+[EMAIL]
+subject = Dein neuer digitaler Mitgliedsausweis
+```
+
+#### Email Template (`email_template.txt`)
+
+The script uses a customizable email template with placeholder variables:
+- `{vorname}`: Member's first name
+- `{nachname}`: Member's last name
+- `{mitgliedsnummer}`: Member number
+- `{email}`: Member's email address
+
+#### Statistics and Monitoring
+
+The script tracks and reports:
+- Total members processed
+- QR codes generated successfully
+- Emails sent successfully
+- Emails failed
+- Members without email addresses
+- Success rate percentage
+
+#### Security Features
+
+- **Hash Generation**: Automatic MD5 hash creation if not present in member data
+- **Secure Authentication**: Uses Microsoft Graph API with OAuth2
+- **Email Validation**: Processes only members with valid email addresses
+- **Error Handling**: Robust error handling for network and authentication issues
+
+#### Integration with Generate Pass Workflow
+
+The `azure-mailtest.py` script integrates seamlessly with the existing pass generation workflow:
+
+1. **Data Source**: Uses the same `ActiveMembers2025.csv` file as `generate-pass.py`
+2. **QR Code Generation**: Implements identical QR code styling and generation logic
+3. **Hash Management**: Supports both pre-generated hashes and on-the-fly MD5 generation
+4. **File Naming**: Uses the same naming convention for generated QR code files
+
+#### Best Practices
+
+- **Test First**: Always use dry-run or test-email modes before bulk sending
+- **Monitor Statistics**: Review email statistics for failed deliveries
+- **Batch Limits**: Use `--max-emails` parameter for testing with limited batches
+- **Error Recovery**: Check logs for failed emails and retry if necessary
+
+#### Operations
+
+1. Run `python azure-mailtest.py` in a virtual Python environment (venv).
+2. Follow the steps announced by the script. Use the URL and code to log in to a thermik4u user account.
+3. Select one of the options displayed by the script.
+4. When you are done, select `0` to exit the script.
