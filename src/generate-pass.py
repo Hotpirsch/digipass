@@ -1,13 +1,13 @@
 import pandas as pd
 import segno
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImagePath
 import sys
 
 url_domain = "https://xw24b2obnym7ofrwk2ckhqktc40cglku.lambda-url.us-east-1.on.aws/"  # Replace with your actual domain
 qrcode_directory = "../qr-codes"  # Directory where the QR-codes are stored
 
 def nice_qr_code(matching_row):
-    font_name = "arial.ttf"  # Path to your TTF font file
+    font_name = "OpenSans-Medium.ttf"  # Path to your TTF font file
     logo = Image.open("logo-rml3.png")  # Path to your logo image
 
     # Extract the required values
@@ -34,17 +34,18 @@ def nice_qr_code(matching_row):
 
     # Calculate text size and ensure it fits within the image width with margins
     draw = ImageDraw.Draw(qr_pil)
-    text_width = draw.textlength(text, font=font)
+    text_width = font.getbbox(text)[2]
     while text_width > (image_width - 2 * margin):
         font = ImageFont.truetype(font_name, font.size - 1)  # Reduce font size
-        text_width = draw.textlength(text, font=font)
+        text_width = font.getbbox(text)[2]
 
     while text_width < (image_width - 2 * margin):
         font = ImageFont.truetype(font_name, font.size + 1)  # Increase font size
-        text_width = draw.textlength(text, font=font)
+        text_width = font.getbbox(text)[2]
 
     # Create a new image with space for the text
-    image_height = qr_pil.size[1] + font.size + 20  # Add space for text
+    text_height = font.getbbox(text)[3]
+    image_height = qr_pil.size[1] + text_height + 20  # Add space for text
     final_image = Image.new("RGB", (image_width + 2 * margin, image_height), "green")
 
     # Paste the QR code onto the blank image
@@ -56,7 +57,7 @@ def nice_qr_code(matching_row):
     # Add text below the QR code
     draw = ImageDraw.Draw(final_image)
     text_x = (final_image.size[0] - text_width) / 2
-    text_y = qr_pil.size[1] + ((image_height - qr_pil.size[1] - font.size) / 2 )  # Position text below the QR code
+    text_y = qr_pil.size[1] + (image_height - qr_pil.size[1] - text_height - 10 )  # Position text below the QR code
     draw.text((text_x, text_y), text, fill="white", font=font)
 
     final_image.save(f"{qrcode_directory}/{fname}{member_number}.png", "PNG")
@@ -101,6 +102,8 @@ if __name__ == "__main__":
     if len(sys.argv) != 3:
         print("Usage: python generate-pass.py <membership_number_file> <csv_file>")
         sys.exit(1)
+    else:
+        print("Generating QR codes...")
 
     input_file = sys.argv[1]
     csv_file = sys.argv[2]

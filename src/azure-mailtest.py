@@ -316,19 +316,19 @@ def generate_qr_code(member_data):
 
         # Calculate text size and ensure it fits within the image width with margins
         draw = ImageDraw.Draw(qr_pil)
-        text_width = draw.textlength(text, font=font)
+        text_width = font.getbbox(text)[2]
         while text_width > (image_width - 2 * margin):
-            font_size -= 1
-            font = ImageFont.truetype(font_name, size=font_size)
-            text_width = draw.textlength(text, font=font)
+            font = ImageFont.truetype(font_name, font.size - 1)  # Reduce font size
+            text_width = font.getbbox(text)[2]
 
         while text_width < (image_width - 2 * margin):
-            font_size += 1
-            font = ImageFont.truetype(font_name, size=font_size)
-            text_width = draw.textlength(text, font=font)
+            font = ImageFont.truetype(font_name, font.size + 1)  # Increase font size
+            text_width = font.getbbox(text)[2]
+
         
         # Create final image with text space
-        image_height = qr_pil.size[1] + font.size + 20
+        text_height = font.getbbox(text)[3]
+        image_height = qr_pil.size[1] + text_height + 20  # Add space for text
         final_image = Image.new("RGB", (image_width + 2 * margin, image_height), "green")
         
         # Paste QR code
@@ -343,7 +343,7 @@ def generate_qr_code(member_data):
         
         # Add member name text
         text_x = (final_image.size[0] - text_width) / 2
-        text_y = qr_pil.size[1] + ((image_height - qr_pil.size[1] - font.size) / 2)
+        text_y = qr_pil.size[1] + (image_height - qr_pil.size[1] - text_height - 10 )  # Position text below the QR code
         draw.text((text_x, text_y), text, fill="white", font=font)
         
         # Save QR code
