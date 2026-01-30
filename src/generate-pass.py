@@ -21,7 +21,7 @@ def nice_qr_code(matching_row):
     url = f"{url_domain}?hash={hash_value}"
 
     # Generate the QR code
-    qr = segno.make_qr(url,error='h')
+    qr = segno.make(url,error='h')
     qr_pil = qr.to_pil(scale=5, border=3, dark='black', light='white').convert("RGB")
     # Add logo to the QR code
     qr_pil.paste(logo, (qr_pil.size[0] // 2 - logo.size[0] // 2, qr_pil.size[1] // 2 - logo.size[1] // 2), logo)

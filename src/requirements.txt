@@ -1,6 +1,7 @@
 pillow
 pandas
 segno
+segno-pil
 openpyxl
 xlrd
 azure-identity

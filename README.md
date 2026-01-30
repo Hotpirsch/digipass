@@ -14,11 +14,13 @@ The QR-code validation is done by an AWS lambda function behind a function URL.
 
 The deployment is done via Terraform.
 ## Operation
+### Updating member data
 1. The member list is exported as an Excel file from the dedicated membership management application.
-1. Use Excel to export the member list as csv.
-1. Use prepare-data.py to convert the csv to the format needed by the application.
+1. Use Excel to export the active member list as csv. Remove any lines above the header line.
+1. Use prepare-data.py to convert the csv to the format needed by the application. Remember to set the correct input file.
 1. Put the `memberlist.csv` to the `/src/lambda` directory.
-1. Run terraform plan/apply. from the `/deploy/terraform` directory.
+1. Run terraform plan/apply. from the `/deployment/terraform` directory.
 
-## TODO
-* Generate QR-Codes directly into the exported membership Excel. Use that Excel to generate serial letters or emails to members.
+### Distributing Emails
+See documentation under ./docs/generate-pass-documentation.md
+

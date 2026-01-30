@@ -34,7 +34,7 @@ def filter_and_generate_csv(input_csv_path, output_csv_path):
 
     print(f"Filtered CSV file with hashes has been saved to {output_csv_path}")
 
-input_csv = '../test/ActiveMembers2025.csv'  # Replace with the path to your input CSV file
-output_csv = '../test/memberlist.csv'  # Replace with the desired output CSV file path
+input_csv = 'ActiveMembers202601.csv'  # Replace with the path to your input CSV file
+output_csv = 'memberlist.csv'  # Replace with the desired output CSV file path
 
 filter_and_generate_csv(input_csv, output_csv)

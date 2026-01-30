@@ -173,6 +173,7 @@ async def send_pass_to_single_member(client: Graph):
         print(f'No member found with name: {membername}\n')
         return
     member_data = matching_rows.iloc[0]
+    # print(f'Found member data: {member_data.to_dict()}')
     qr_code_path = generate_qr_code(member_data)
     message = create_message(member_data, qr_code_path)
     await client.send_qr_mail(message)
@@ -354,11 +355,12 @@ def generate_qr_code(member_data):
         
         stats['qr_codes_generated'] += 1
         # logger.info(f"Generated QR code: {qr_filename}")
+        print(f"Generated QR code: {qr_filename}")
 
         return qr_filename
         
     except Exception as e:
-        # logger.error(f"Failed to generate QR code for {vorname} {nachname}: {str(e)}")
+        print(f"Failed to generate QR code for {vorname} {nachname}: {str(e)}")
         return None
 
 def create_message(member_data, qr_code_path):
