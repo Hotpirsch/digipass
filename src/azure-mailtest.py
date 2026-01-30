@@ -371,7 +371,7 @@ def create_message(member_data, qr_code_path):
     # create email with QR code attachment to a member.
     try:
         # Create email message
-        message['recipient'] = member_data['E-Mail']
+        message['recipient'] = (member_data['E-Mail'].strip())
         message['subject'] = config.get('EMAIL', 'subject')
 
         # Load and personalize email template
